@@ -1,6 +1,7 @@
 use csv::ReaderBuilder;
 use std::error::Error;
 use std::fs::File;
+use std::io::{self, Read, Write};
 
 fn math_sus(respostas: &[i8; 10]) -> f32 {
     let total: f32;
@@ -22,7 +23,7 @@ fn math_sus(respostas: &[i8; 10]) -> f32 {
 fn classificacao_sus(nota: f32) {
     match nota as i8 {
         92..=100 => {
-            println!("Análise do resultado: Melhor imaginavel");
+            println!("Análise do resultado: Melhor imaginavel!");
         }
         85..=91 => {
             println!("Análise do resultado: Excelente");
@@ -43,13 +44,20 @@ fn classificacao_sus(nota: f32) {
     }
 }
 
+fn pause() {
+    let mut stdout = io::stdout();
+    stdout.write(b"Pressione Enter para continuar...").unwrap();
+    stdout.flush().unwrap();
+    io::stdin().read(&mut [0]).unwrap();
+}
+
 fn main() -> Result<(), Box<dyn Error>> {
     let mut nota_final: f32 = 0.0;
     let mut count: i8 = 0;
     let mut rdr = ReaderBuilder::new()
         .has_headers(true)
         .from_reader(File::open(
-            "src/Teste de usabilidade - Respostas ao formulário 1.csv",
+            "//Teste de usabilidade - Respostas ao formulário 1.csv",
         )?);
 
     for result in rdr.records() {
@@ -69,5 +77,6 @@ fn main() -> Result<(), Box<dyn Error>> {
     nota_final = nota_final / count as f32;
     println!("\nA pontuação final foi de: {:.2}", nota_final);
     classificacao_sus(nota_final);
+    pause();
     Ok(())
 }
