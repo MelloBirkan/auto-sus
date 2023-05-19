@@ -63,9 +63,10 @@ fn main() -> Result<(), Box<dyn Error>> {
         count += 1;
         let individual = math_sus(&respostas);
         classificacao_sus(individual);
-        nota_final += individual/count as f32;
+        nota_final += individual;
     }
-
+    nota_final = nota_final / count as f32;
+    println!("\nA pontuação final foi de: {}", nota_final);
+    classificacao_sus(nota_final);
     Ok(())
-
 }
