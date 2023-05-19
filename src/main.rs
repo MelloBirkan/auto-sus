@@ -1,11 +1,10 @@
 fn math_sus(respostas: &[i8; 10]) -> f32 {
-
     let total: f32;
     let mut total_par = 0;
     let mut total_impar = 0;
 
     for i in 0..10 {
-        if 0 == (i+1) % 2 {
+        if 0 == (i + 1) % 2 {
             total_par += 5 - respostas[i];
         } else {
             total_impar += respostas[i] - 1;
@@ -36,7 +35,7 @@ fn classificacao_sus(nota: f32) {
         0..=37 => {
             println!("Análise do resultado: Pior imaginavel");
         }
-        _ => panic!("Análise do resultado: Nota invalida")
+        _ => panic!("Análise do resultado: Nota invalida"),
     }
 }
 
@@ -44,4 +43,3 @@ fn main() {
     let respostas: [i8; 10] = [5, 1, 4, 2, 5, 1, 3, 2, 5, 3];
     classificacao_sus(math_sus(&respostas));
 }
-
