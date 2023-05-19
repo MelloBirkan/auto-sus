@@ -1,3 +1,5 @@
+
+
 fn math_sus(respostas: &[i8; 10]) -> f32 {
     let total: f32;
     let mut total_par = 0;
