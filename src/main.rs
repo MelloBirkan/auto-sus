@@ -1,12 +1,11 @@
+use csv::ReaderBuilder;
 use std::error::Error;
 use std::fs::File;
-use csv::ReaderBuilder;
 
 fn math_sus(respostas: &[i8; 10]) -> f32 {
     let total: f32;
     let mut total_par = 0;
     let mut total_impar = 0;
-
 
     for i in 0..10 {
         if 0 == (i + 1) % 2 {
@@ -57,7 +56,7 @@ fn main() -> Result<(), Box<dyn Error>> {
         // Começa a partir do índice 1 para ignorar o campo "Carimbo de data/hora"
         let mut respostas: [i8; 10] = [0; 10];
         for (i, field) in record.iter().enumerate().skip(1).take(10) {
-            respostas[i-1] = field.parse::<i8>().unwrap_or(0);
+            respostas[i - 1] = field.parse::<i8>().unwrap_or(0);
         }
 
         count += 1;
@@ -69,4 +68,5 @@ fn main() -> Result<(), Box<dyn Error>> {
     println!("\nA pontuação final foi de: {}", nota_final);
     classificacao_sus(nota_final);
     Ok(())
+
 }
