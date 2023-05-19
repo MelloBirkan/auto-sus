@@ -17,11 +17,31 @@ fn math_sus(respostas: &[i8; 10]) -> f32 {
 }
 
 fn classificacao_sus(nota: f32) {
-
+    match nota as i8 {
+        92..=100 => {
+            println!("Análise do resultado: Melhor imaginavel");
+        }
+        85..=91 => {
+            println!("Análise do resultado: Excelente");
+        }
+        72..=84 => {
+            println!("Análise do resultado: Bom");
+        }
+        52..=71 => {
+            println!("Análise do resultado: Ok/Justo");
+        }
+        38..=51 => {
+            println!("Análise do resultado: Ruim");
+        }
+        0..=37 => {
+            println!("Análise do resultado: Pior imaginavel");
+        }
+        _ => panic!("Análise do resultado: Nota invalida")
+    }
 }
 
 fn main() {
     let respostas: [i8; 10] = [5, 1, 4, 2, 5, 1, 3, 2, 5, 3];
-    math_sus(&respostas);
+    classificacao_sus(math_sus(&respostas));
 }
 
