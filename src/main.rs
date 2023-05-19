@@ -1,9 +1,12 @@
-
+use std::error::Error;
+use std::fs::File;
+use csv::ReaderBuilder;
 
 fn math_sus(respostas: &[i8; 10]) -> f32 {
     let total: f32;
     let mut total_par = 0;
     let mut total_impar = 0;
+
 
     for i in 0..10 {
         if 0 == (i + 1) % 2 {
@@ -13,7 +16,7 @@ fn math_sus(respostas: &[i8; 10]) -> f32 {
         }
     }
     total = (total_par + total_impar) as f32 * 2.5;
-    println!("A pontuação foi de: {total}");
+    println!("A pontuação foi de: {}", total);
     return total;
 }
 
@@ -41,7 +44,28 @@ fn classificacao_sus(nota: f32) {
     }
 }
 
-fn main() {
-    let respostas: [i8; 10] = [5, 1, 4, 2, 5, 1, 3, 2, 5, 3];
-    classificacao_sus(math_sus(&respostas));
+fn main() -> Result<(), Box<dyn Error>> {
+    let mut nota_final: f32 = 0.0;
+    let mut count: i8 = 0;
+    let mut rdr = ReaderBuilder::new()
+        .has_headers(true)
+        .from_reader(File::open("src/teste-usa.csv")?);
+
+    for result in rdr.records() {
+        let record = result?;
+
+        // Começa a partir do índice 1 para ignorar o campo "Carimbo de data/hora"
+        let mut respostas: [i8; 10] = [0; 10];
+        for (i, field) in record.iter().enumerate().skip(1).take(10) {
+            respostas[i-1] = field.parse::<i8>().unwrap_or(0);
+        }
+
+        count += 1;
+        let individual = math_sus(&respostas);
+        classificacao_sus(individual);
+        nota_final += individual/count as f32;
+    }
+
+    Ok(())
+
 }
