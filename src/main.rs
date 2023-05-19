@@ -48,7 +48,9 @@ fn main() -> Result<(), Box<dyn Error>> {
     let mut count: i8 = 0;
     let mut rdr = ReaderBuilder::new()
         .has_headers(true)
-        .from_reader(File::open("src/teste-usa.csv")?);
+        .from_reader(File::open(
+            "src/Teste de usabilidade - Respostas ao formulário 1.csv",
+        )?);
 
     for result in rdr.records() {
         let record = result?;
@@ -65,8 +67,7 @@ fn main() -> Result<(), Box<dyn Error>> {
         nota_final += individual;
     }
     nota_final = nota_final / count as f32;
-    println!("\nA pontuação final foi de: {}", nota_final);
+    println!("\nA pontuação final foi de: {:.2}", nota_final);
     classificacao_sus(nota_final);
     Ok(())
-
 }
